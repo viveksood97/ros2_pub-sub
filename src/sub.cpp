@@ -1,3 +1,11 @@
+// Copyright (c) 2021 Vivek Sood
+// Licensed under the MIT License.
+
+
+/// @file   sub.cpp
+/// @author Vivek Sood
+/// @brief ROS2 : Writing Basic Subscriber
+
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"

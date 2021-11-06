@@ -1,3 +1,11 @@
+// Copyright (c) 2021 Vivek Sood
+// Licensed under the MIT License.
+
+
+/// @file   pub.cpp
+/// @author Vivek Sood
+/// @brief ROS2: Writing Basic Publisher
+
 #include <chrono>
 #include <functional>
 #include <memory>
