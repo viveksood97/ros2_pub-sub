@@ -1,22 +1,34 @@
-#include "rclcpp/rclcpp.hpp"
+#include <chrono>
+#include <functional>
+#include <memory>
+#include <string>
 
-class publisher: public rclcpp::Node {
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
+
+
+class Pub : public rclcpp::Node {
  public:
-    publisher() : Node("kick_publisher") {
-        timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(200),
-            std::bind(&publisher::timerCallback, this));
+    Pub():Node("publisher") {
+        publisher = this->create_publisher<std_msgs::msg::String>("topic", 1);
+        timer = this->create_wall_timer(
+        std::chrono::milliseconds(200), std::bind(&Pub::timer_callback, this));
     }
+
  private:
-    void timerCallback() {
-        RCLCPP_INFO(this->get_logger(), "Knock Knock");
+    void timer_callback() {
+      auto out = std_msgs::msg::String();
+      out.data = "Knock Knock";
+      RCLCPP_INFO(this->get_logger(), out.data);
+      publisher->publish(out);
     }
-    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::TimerBase::SharedPtr timer;
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher;
 };
-int main(int argc, char **argv) {
-    rclcpp::init(argc, argv);
-    auto node = std::make_shared<publisher>();
-    rclcpp::spin(node);
-    rclcpp::shutdown();
-    return 0;
+
+int main(int argc, char * argv[]) {
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<Pub>());
+  rclcpp::shutdown();
+  return 0;
 }

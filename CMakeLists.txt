@@ -18,10 +18,14 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-add_executable(kick_publisher src/pub.cpp)
-ament_target_dependencies(kick_publisher rclcpp)
+find_package(std_msgs REQUIRED)
+add_executable(publisher src/pub.cpp)
+add_executable(subscriber src/sub.cpp)
+ament_target_dependencies(publisher rclcpp std_msgs)
+ament_target_dependencies(subscriber rclcpp std_msgs) 
 install(TARGETS
-  kick_publisher
+  publisher
+  subscriber
   DESTINATION lib/${PROJECT_NAME}
 )
 # uncomment the following section in order to fill in
